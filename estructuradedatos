@@ -1,0 +1,152 @@
+using System;
+
+namespace GeometricShapes
+{
+    /// <summary>
+    /// Clase abstracta que sirve como base para diferentes figuras.
+    /// Define métodos para calcular área y perímetro que las clases hijas deben implementar.
+    /// </summary>
+    public abstract class Shape
+    {
+        /// <summary>
+        /// Calcula el área de la figura.
+        /// </summary>
+        /// <returns>Área en double</returns>
+        public abstract double Area();
+
+        /// <summary>
+        /// Calcula el perímetro de la figura.
+        /// </summary>
+        /// <returns>Perímetro en double</returns>
+        public abstract double Perimeter();
+    }
+
+    /// <summary>
+    /// Representa un círculo y permite calcular su área y perímetro.
+    /// </summary>
+    public class Circle : Shape
+    {
+        private double radius;
+
+        /// <summary>
+        /// Constructor para Circle que recibe el radio.
+        /// </summary>
+        /// <param name="radius">Radio del círculo</param>
+        public Circle(double radius)
+        {
+            this.radius = radius;
+        }
+
+        /// <summary>
+        /// Propiedad para obtener o cambiar el radio.
+        /// </summary>
+        public double Radius
+        {
+            get { return radius; }
+            set { radius = value; }
+        }
+
+        /// <summary>
+        /// Calcula el área del círculo.
+        /// </summary>
+        /// <returns>Área en double</returns>
+        public override double Area()
+        {
+            return Math.PI * radius * radius;
+        }
+
+        /// <summary>
+        /// Calcula el perímetro del círculo.
+        /// </summary>
+        /// <returns>Perímetro en double</returns>
+        public override double Perimeter()
+        {
+            return 2 * Math.PI * radius;
+        }
+    }
+
+    /// <summary>
+    /// Representa un rectángulo y permite calcular su área y perímetro.
+    /// </summary>
+    public class Rectangle : Shape
+    {
+        private double width;
+        private double height;
+
+        /// <summary>
+        /// Constructor para Rectangle que recibe ancho y alto.
+        /// </summary>
+        /// <param name="width">Ancho del rectángulo</param>
+        /// <param name="height">Alto del rectángulo</param>
+        public Rectangle(double width, double height)
+        {
+            this.width = width;
+            this.height = height;
+        }
+
+        /// <summary>
+        /// Propiedad para obtener o cambiar el ancho.
+        /// </summary>
+        public double Width
+        {
+            get { return width; }
+            set { width = value; }
+        }
+
+        /// <summary>
+        /// Propiedad para obtener o cambiar el alto.
+        /// </summary>
+        public double Height
+        {
+            get { return height; }
+            set { height = value; }
+        }
+
+        /// <summary>
+        /// Calcula el área del rectángulo.
+        /// </summary>
+        /// <returns>Área en double</returns>
+        public override double Area()
+        {
+            return width * height;
+        }
+
+        /// <summary>
+        /// Calcula el perímetro del rectángulo.
+        /// </summary>
+        /// <returns>Perímetro en double</returns>
+        public override double Perimeter()
+        {
+            return 2 * (width + height);
+        }
+    }
+
+    /// <summary>
+    /// Clase principal para ejecutar el programa.
+    /// </summary>
+    class MainClass
+    {
+        /// <summary>
+        /// Punto de entrada del programa.
+        /// </summary>
+        /// <param name="args">Argumentos de la línea de comandos</param>
+        static void Main(string[] args)
+        {
+            // Crear un círculo con radio 5
+            Circle myCircle = new Circle(5);
+            Console.WriteLine("Círculo:");
+            Console.WriteLine("Radio: " + myCircle.Radius);
+            Console.WriteLine("Área: " + myCircle.Area().ToString("F2"));
+            Console.WriteLine("Perímetro: " + myCircle.Perimeter().ToString("F2"));
+            Console.WriteLine();
+
+            // Crear un rectángulo con ancho 4 y alto 6
+            Rectangle myRectangle = new Rectangle(4, 6);
+            Console.WriteLine("Rectángulo:");
+            Console.WriteLine("Ancho: " + myRectangle.Width);
+            Console.WriteLine("Alto: " + myRectangle.Height);
+            Console.WriteLine("Área: " + myRectangle.Area().ToString("F2"));
+            Console.WriteLine("Perímetro: " + myRectangle.Perimeter().ToString("F2"));
+        }
+    }
+}
