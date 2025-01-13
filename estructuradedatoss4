@@ -1,0 +1,183 @@
+Ejercicio 1
+
+using System;
+using System.Collections.Generic;
+
+public class Alumno
+{
+    public string NombreCompleto { get; set; }
+    public int Edad { get; set; }
+    public List<string> Cursos { get; set; }
+
+    public Alumno(string nombreCompleto, int edad, List<string> cursos)
+    {
+        NombreCompleto = nombreCompleto;
+        Edad = edad;
+        Cursos = cursos;
+    }
+
+    public void ImprimirDetalles()
+    {
+        Console.WriteLine($"Nombre completo: {NombreCompleto}");
+        Console.WriteLine($"Edad: {Edad}");
+        Console.WriteLine("Cursos matriculados:");
+        foreach (var curso in Cursos)
+        {
+            Console.WriteLine($"- {curso}");
+        }
+    }
+}
+
+public class Programa
+{
+    public static void Main()
+    {
+        var cursos = new List<string> { "Matemáticas", "Química", "Geografía" };
+        var alumno = new Alumno("Ana García", 22, cursos);
+        alumno.ImprimirDetalles();
+    }
+}
+
+Ejercicio 2
+
+using System;
+
+public class Obra
+{
+    public string Nombre { get; set; }
+    public string Escritor { get; set; }
+    public double Costo { get; set; }
+
+    public Obra(string nombre, string escritor, double costo)
+    {
+        Nombre = nombre;
+        Escritor = escritor;
+        Costo = costo;
+    }
+
+    public double AplicarPromocion(double limite, double porcentajePromocion)
+    {
+        if (Costo > limite)
+        {
+            return Costo - (Costo * porcentajePromocion / 100);
+        }
+        return Costo;
+    }
+}
+
+public class Programa
+{
+    public static void Main()
+    {
+        var obra = new Obra("C# desde cero", "Juan Pérez", 45.99);
+        double precioFinal = obra.AplicarPromocion(40, 10);
+        Console.WriteLine($"Precio final con promoción: {precioFinal}");
+    }
+}
+
+Ejercicio 3
+
+using System;
+using System.Collections.Generic;
+
+public class SerHumano
+{
+    public string NombreCompleto { get; set; }
+    public int Edad { get; set; }
+    public string Sexo { get; set; }
+
+    public SerHumano(string nombreCompleto, int edad, string sexo)
+    {
+        NombreCompleto = nombreCompleto;
+        Edad = edad;
+        Sexo = sexo;
+    }
+}
+
+public class Ejecucion
+{
+    public static void Main()
+    {
+        var seresHumanos = new List<SerHumano>
+        {
+            new SerHumano("Ana", 22, "Femenino"),
+            new SerHumano("Carlos", 17, "Masculino"),
+            new SerHumano("María", 19, "Femenino")
+        };
+
+        foreach (var serHumano in seresHumanos)
+        {
+            if (serHumano.Edad > 18)
+            {
+                Console.WriteLine(serHumano.NombreCompleto);
+            }
+        }
+    }
+}
+
+Ejercicio 4
+
+using System;
+
+public class Cuadrilatero
+{
+    public double LadoMayor { get; set; }
+    public double LadoMenor { get; set; }
+
+    public Cuadrilatero(double ladoMayor, double ladoMenor)
+    {
+        LadoMayor = ladoMayor;
+        LadoMenor = ladoMenor;
+    }
+
+    public double ObtenerArea()
+    {
+        return LadoMayor * LadoMenor;
+    }
+
+    public double ObtenerPerimetro()
+    {
+        return 2 * (LadoMayor + LadoMenor);
+    }
+}
+
+public class Ejecucion
+{
+    public static void Main()
+    {
+        var cuadrilatero = new Cuadrilatero(5, 3);
+        Console.WriteLine($"Área: {cuadrilatero.ObtenerArea()}");
+        Console.WriteLine($"Perímetro: {cuadrilatero.ObtenerPerimetro()}");
+    }
+}
+
+Ejercicio 5
+
+public class Automovil
+{
+    public string Fabricante { get; set; }
+    public string Tipo { get; set; }
+    public int AñoFabricacion { get; set; }
+
+    public Automovil(string fabricante, string tipo, int añoFabricacion)
+    {
+        Fabricante = fabricante;
+        Tipo = tipo;
+        AñoFabricacion = añoFabricacion;
+    }
+
+    public bool EsDeColeccion()
+    {
+        return DateTime.Now.Year - AñoFabricacion > 10;
+    }
+}
+
+public class Ejecutar
+{
+    public static void Main()
+    {
+        var automovil = new Automovil("Ford", "Fiesta", 2005);
+        Console.WriteLine($"¿El automóvil es de colección? {automovil.EsDeColeccion()}");
+    }
+}
+
