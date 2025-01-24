@@ -1,2 +1,143 @@
-codigo 
-hsdsajk
+## EJERCICIO NUMERO 8 ##
+using System;
+using System.Collections.Generic;
+
+class Programa
+{
+    static void Main(string[] args)
+    {
+        // Declarar la lista principal
+        List<float> listaPrincipal = new List<float>();
+
+        // Solicitar el número de datos a ingresar
+        Console.WriteLine("¡Hola! Vamos a trabajar con algunos datos.");
+        Console.Write("¿Cuántos números deseas ingresar? ");
+        int n = int.Parse(Console.ReadLine());
+
+        // Ingresar los datos en la lista principal
+        for (int i = 0; i < n; i++)
+        {
+            Console.Write($"Ingresa el valor del dato #{i + 1}: ");
+            float dato = float.Parse(Console.ReadLine());
+            listaPrincipal.Add(dato);
+        }
+
+        // Calcular el promedio de los datos
+        float suma = 0;
+        foreach (float dato in listaPrincipal)
+        {
+            suma += dato;
+        }
+        float promedio = suma / n;
+
+        // Crear listas para los datos menores o iguales y mayores que el promedio
+        List<float> menoresOIgualesPromedio = new List<float>();
+        List<float> mayoresQuePromedio = new List<float>();
+
+        // Clasificar los datos según el promedio
+        foreach (float dato in listaPrincipal)
+        {
+            if (dato <= promedio)
+            {
+                menoresOIgualesPromedio.Add(dato);
+            }
+            else
+            {
+                mayoresQuePromedio.Add(dato);
+            }
+        }
+
+        // Mostrar los resultados
+        Console.WriteLine("\n--- Aquí están los resultados ---");
+        Console.WriteLine("\nLos números que ingresaste son:");
+        foreach (float dato in listaPrincipal)
+        {
+            Console.WriteLine($"- {dato}");
+        }
+
+        Console.WriteLine($"\nEl promedio de los datos es: {promedio:F2}");
+
+        Console.WriteLine("\nLos datos que son menores o iguales al promedio son:");
+        foreach (float dato in menoresOIgualesPromedio)
+        {
+            Console.WriteLine($"- {dato}");
+        }
+
+        Console.WriteLine("\nY los datos mayores al promedio son:");
+        foreach (float dato in mayoresQuePromedio)
+        {
+            Console.WriteLine($"- {dato}");
+        }
+
+        Console.WriteLine("\n¡Gracias por usar el programa!");
+    }
+}
+
+
+### EJERCICIO NUMERO 9 ###
+using System;
+using System.Collections.Generic;
+
+class Programa
+{
+    static void Main(string[] args)
+    {
+        // Crear dos listas para almacenar los datos
+        List<int> lista1 = new List<int>();
+        List<int> lista2 = new List<int>();
+
+        // Solicitar el número de datos para la primera lista
+        Console.WriteLine("¡Hola! Vamos a cargar dos listas de números enteros.");
+        Console.Write("¿Cuántos números quieres ingresar en la primera lista? ");
+        int n1 = int.Parse(Console.ReadLine());
+
+        // Ciclo para cargar la primera lista
+        for (int i = 0; i < n1; i++)
+        {
+            Console.Write($"Ingresa el valor #{i + 1} para la primera lista: ");
+            int dato1 = int.Parse(Console.ReadLine());
+            lista1.Add(dato1);
+        }
+
+        // Solicitar el número de datos para la segunda lista
+        Console.Write("\n¿Y cuántos números quieres ingresar en la segunda lista? ");
+        int n2 = int.Parse(Console.ReadLine());
+
+        // Ciclo para cargar la segunda lista
+        for (int i = 0; i < n2; i++)
+        {
+            Console.Write($"Ingresa el valor #{i + 1} para la segunda lista: ");
+            int dato2 = int.Parse(Console.ReadLine());
+            lista2.Add(dato2);
+        }
+
+        // Comparar las listas
+        if (n1 == n2)
+        {
+            // Si las listas tienen el mismo tamaño, verificar si tienen el mismo contenido
+            bool sonIguales = true;
+            for (int i = 0; i < n1; i++)
+            {
+                if (lista1[i] != lista2[i])
+                {
+                    sonIguales = false;
+                    break;
+                }
+            }
+
+            if (sonIguales)
+            {
+                Console.WriteLine("\nLas listas son iguales en tamaño y en contenido.");
+            }
+            else
+            {
+                Console.WriteLine("\nLas listas son iguales en tamaño, pero no en contenido.");
+            }
+        }
+        else
+        {
+            // Si las listas no tienen el mismo tamaño
+            Console.WriteLine("\nLas listas no tienen el mismo tamaño ni contenido.");
+        }
+    }
+}
