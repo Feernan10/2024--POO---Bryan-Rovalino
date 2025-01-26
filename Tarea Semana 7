@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    // Método para verificar si los paréntesis están balanceados
+    public static bool EsBalanceada(string expresion)
+    {
+        Stack<char> pila = new Stack<char>(); // Pila para almacenar los paréntesis
+
+        foreach (char caracter in expresion)
+        {
+            if (caracter == '(' || caracter == '{' || caracter == '[') // Si es un paréntesis abierto
+            {
+                pila.Push(caracter);
+            }
+            else if (caracter == ')' || caracter == '}' || caracter == ']') // Si es un paréntesis cerrado
+            {
+                if (pila.Count == 0) // Si no hay un paréntesis abierto correspondiente
+                    return false;
+
+                char top = pila.Pop();
+                if (!EsParentesisCorrespondiente(top, caracter)) // Verificar si los paréntesis coinciden
+                    return false;
+            }
+        }
+
+        return pila.Count == 0; // Si la pila está vacía, los paréntesis están balanceados
+    }
+
+    private static bool EsParentesisCorrespondiente(char abierto, char cerrado)
+    {
+        return (abierto == '(' && cerrado == ')') || 
+               (abierto == '{' && cerrado == '}') || 
+               (abierto == '[' && cerrado == ']');
+    }
+
+    // Método recursivo para resolver el problema de las Torres de Hanoi
+    public static void ResolverTorres(int n, char origen, char destino, char auxiliar)
+    {
+        if (n == 1)
+        {
+            Console.WriteLine($"Mover disco 1 de {origen} a {destino}");
+            return;
+        }
+
+        // Mover los n-1 discos de origen a auxiliar
+        ResolverTorres(n - 1, origen, auxiliar, destino);
+
+        // Mover el disco n de origen a destino
+        Console.WriteLine($"Mover disco {n} de {origen} a {destino}");
+
+        // Mover los n-1 discos de auxiliar a destino
+        ResolverTorres(n - 1, auxiliar, destino, origen);
+    }
+
+    public static void Main()
+    {
+        // Verificación de balance de paréntesis
+        string expresion = "{7+(8*5)-[(9-7)+(4+1)]}";
+        Console.WriteLine("Verificación de balance de paréntesis:");
+        if (EsBalanceada(expresion))
+            Console.WriteLine("La fórmula está balanceada.");
+        else
+            Console.WriteLine("La fórmula no está balanceada.");
+
+        Console.WriteLine();
+
+        // Resolución del problema de las Torres de Hanoi
+        Console.WriteLine("Resolución de las Torres de Hanoi:");
+        int discos = 3; // Puedes cambiar el número de discos
+        ResolverTorres(discos, 'A', 'C', 'B'); // A, B, C son las torres
+    }
+}
