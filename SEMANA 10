@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+
+namespace SistemaVacunacion
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Sistema de Vacunación - COVID-19");
+            Console.WriteLine("Universidad Estatal Amazónica");
+            Console.WriteLine("Estudiante: Bryan Rovalino\n");
+
+            // Crear los conjuntos
+            HashSet<string> ciudadanos = new HashSet<string>();
+            HashSet<string> vacunadosPfizer = new HashSet<string>();
+            HashSet<string> vacunadosAstrazeneca = new HashSet<string>();
+
+            // Generar conjunto de 500 ciudadanos
+            for (int i = 1; i <= 500; i++)
+            {
+                ciudadanos.Add("Ciudadano_" + i);
+            }
+
+            // Generar 75 vacunados con Pfizer (aleatorio)
+            Random rnd = new Random();
+            while (vacunadosPfizer.Count < 75)
+            {
+                int index = rnd.Next(1, 501);
+                vacunadosPfizer.Add("Ciudadano_" + index);
+            }
+
+            // Generar 75 vacunados con Astrazeneca (aleatorio)
+            while (vacunadosAstrazeneca.Count < 75)
+            {
+                int index = rnd.Next(1, 501);
+                string ciudadano = "Ciudadano_" + index;
+                if (!vacunadosPfizer.Contains(ciudadano))
+                {
+                    vacunadosAstrazeneca.Add(ciudadano);
+                }
+            }
+
+            // Operaciones de conjuntos
+            HashSet<string> totalVacunados = new HashSet<string>(vacunadosPfizer);
+            totalVacunados.UnionWith(vacunadosAstrazeneca);
+
+            HashSet<string> noVacunados = new HashSet<string>(ciudadanos);
+            noVacunados.ExceptWith(totalVacunados);
+
+            // Mostrar resultados
+            MostrarResultados("Ciudadanos no vacunados:", noVacunados);
+            MostrarResultados("\nCiudadanos vacunados con Pfizer:", vacunadosPfizer);
+            MostrarResultados("\nCiudadanos vacunados con Astrazeneca:", vacunadosAstrazeneca);
+            MostrarResultados("\nTotal de ciudadanos vacunados:", totalVacunados);
+
+            Console.WriteLine($"\nResumen:");
+            Console.WriteLine($"Total de ciudadanos: {ciudadanos.Count}");
+            Console.WriteLine($"Vacunados con Pfizer: {vacunadosPfizer.Count}");
+            Console.WriteLine($"Vacunados con Astrazeneca: {vacunadosAstrazeneca.Count}");
+            Console.WriteLine($"No vacunados: {noVacunados.Count}");
+        }
+
+        static void MostrarResultados(string titulo, HashSet<string> conjunto)
+        {
+            Console.WriteLine(titulo);
+            Console.WriteLine("----------------------------------------");
+            foreach (string elemento in conjunto)
+            {
+                Console.WriteLine(elemento);
+            }
+            Console.WriteLine($"Total: {conjunto.Count}");
+        }
+    }
+}
