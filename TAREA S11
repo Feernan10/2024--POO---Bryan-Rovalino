@@ -5,7 +5,7 @@ class Program
 {
     static void Main()
     {
-        // Diccionario inicial de palabras relacionadas al fútbol
+        // Diccionario 
         Dictionary<string, string> diccionario = new Dictionary<string, string>
         {
             { "gol", "goal" },
