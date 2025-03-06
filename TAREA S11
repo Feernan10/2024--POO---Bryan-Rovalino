@@ -5,30 +5,24 @@ class Program
 {
     static void Main()
     {
-        // Diccionario inicial de palabras
-        Dictionary<string, string> dictionary = new Dictionary<string, string>
+        // Diccionario inicial de palabras relacionadas al fútbol
+        Dictionary<string, string> diccionario = new Dictionary<string, string>
         {
-            { "time", "tiempo" },
-            { "person", "persona" },
-            { "year", "año" },
-            { "way", "camino" },
-            { "day", "día" },
-            { "thing", "cosa" },
-            { "man", "hombre" },
-            { "world", "mundo" },
-            { "life", "vida" },
-            { "hand", "mano" },
-            { "part", "parte" },
-            { "child", "niño" },
-            { "eye", "ojo" },
-            { "woman", "mujer" },
-            { "place", "lugar" },
-            { "work", "trabajo" },
-            { "week", "semana" },
-            { "case", "caso" },
-            { "point", "punto" },
-            { "government", "gobierno" },
-            { "company", "empresa" }
+            { "gol", "goal" },
+            { "portero", "goalkeeper" },
+            { "defensa", "defender" },
+            { "centrocampista", "midfielder" },
+            { "delantero", "forward" },
+            { "árbitro", "referee" },
+            { "tarjeta", "card" },
+            { "falta", "foul" },
+            { "penalti", "penalty" },
+            { "saque", "throw-in" },
+            { "esquina", "corner" },
+            { "campo", "field" },
+            { "balón", "ball" },
+            { "entrenador", "coach" },
+            { "partido", "match" }
         };
 
         while (true)
@@ -36,18 +30,18 @@ class Program
             Console.WriteLine("\nMENU");
             Console.WriteLine("=======================================================");
             Console.WriteLine("1. Traducir una frase");
-            Console.WriteLine("2. Ingresar más palabras al diccionario");
+            Console.WriteLine("2. Agregar más palabras al diccionario");
             Console.WriteLine("0. Salir");
             Console.Write("Seleccione una opción: ");
-            string option = Console.ReadLine();
+            string opcion = Console.ReadLine();
 
-            switch (option)
+            switch (opcion)
             {
                 case "1":
-                    TranslatePhrase(dictionary);
+                    TraducirFrase(diccionario);
                     break;
                 case "2":
-                    AddWordsToDictionary(dictionary);
+                    AgregarPalabras(diccionario);
                     break;
                 case "0":
                     return;
@@ -58,40 +52,66 @@ class Program
         }
     }
 
-    static void TranslatePhrase(Dictionary<string, string> dictionary)
+    static void TraducirFrase(Dictionary<string, string> diccionario)
     {
         Console.Write("Ingrese la frase: ");
-        string phrase = Console.ReadLine();
-        string[] words = phrase.Split(' ');
-        List<string> translatedWords = new List<string>();
+        string frase = Console.ReadLine();
+        string[] palabras = frase.Split(' ');
+        List<string> palabrasTraducidas = new List<string>();
 
-        foreach (string word in words)
+        foreach (string palabra in palabras)
         {
-            string lowerWord = word.ToLower().Trim(',', '.');
-            if (dictionary.ContainsKey(lowerWord))
+            string palabraLimpia = palabra.ToLower().Trim(',', '.', '!', '?');
+            string traduccion = null;
+
+            // Buscar en español-inglés
+            if (diccionario.ContainsKey(palabraLimpia))
             {
-                translatedWords.Add(dictionary[lowerWord]);
+                traduccion = diccionario[palabraLimpia];
+            }
+            // Buscar en inglés-español
+            else
+            {
+                foreach (var item in diccionario)
+                {
+                    if (item.Value == palabraLimpia)
+                    {
+                        traduccion = item.Key;
+                        break;
+                    }
+                }
+            }
+
+            // Si se encontró una traducción, agregarla; de lo contrario, mantener la palabra original
+            if (traduccion != null)
+            {
+                // Mantener la capitalización original si la palabra la tenía
+                if (char.IsUpper(palabra[0]))
+                {
+                    traduccion = char.ToUpper(traduccion[0]) + traduccion.Substring(1);
+                }
+                palabrasTraducidas.Add(traduccion);
             }
             else
             {
-                translatedWords.Add(word); // Si no se encuentra la traducción, se mantiene la palabra original
+                palabrasTraducidas.Add(palabra);
             }
         }
 
-        Console.WriteLine("Su frase traducida es: " + string.Join(" ", translatedWords));
+        Console.WriteLine("Frase traducida: " + string.Join(" ", palabrasTraducidas));
     }
 
-    static void AddWordsToDictionary(Dictionary<string, string> dictionary)
+    static void AgregarPalabras(Dictionary<string, string> diccionario)
     {
-        Console.Write("Ingrese la palabra en inglés: ");
-        string englishWord = Console.ReadLine().ToLower();
-        Console.Write("Ingrese la traducción en español: ");
-        string spanishWord = Console.ReadLine().ToLower();
+        Console.Write("Ingrese la palabra en español: ");
+        string espanol = Console.ReadLine().ToLower();
+        Console.Write("Ingrese la traducción en inglés: ");
+        string ingles = Console.ReadLine().ToLower();
 
-        if (!dictionary.ContainsKey(englishWord))
+        if (!diccionario.ContainsKey(espanol) && !diccionario.ContainsValue(ingles))
         {
-            dictionary.Add(englishWord, spanishWord);
-            Console.WriteLine("Palabra agregada al diccionario.");
+            diccionario.Add(espanol, ingles);
+            Console.WriteLine("Palabra agregada correctamente.");
         }
         else
         {
