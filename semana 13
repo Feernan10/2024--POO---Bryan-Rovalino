@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+
+class Catalogo_Revistas
+{
+    private List<string> catalogo;
+
+    public Catalogo_Revistas()
+    {
+        catalogo = new List<string>();
+    }
+
+    public void Agregar_Titulo(string titulo)
+    {
+        catalogo.Add(titulo);
+    }
+
+    public bool Buscar_Titulo_Recursivo(string titulo)
+    {
+        return BusquedaRecursiva(catalogo, titulo, 0);
+    }
+
+    private bool BusquedaRecursiva(List<string> catalogo, string titulo, int indice)
+    {
+        if (indice >= catalogo.Count)
+        {
+            return false;
+        }
+        if (catalogo[indice].Equals(titulo, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+        return BusquedaRecursiva(catalogo, titulo, indice + 1);
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Catalogo_Revistas catalogo = new Catalogo_Revistas();
+
+        Console.WriteLine("CATÁLOGO DE REVISTAS\n");
+        Console.WriteLine("Universidad Estatal Amazónica");
+        Console.WriteLine("INGENIERÍA EN TECNOLOGÍAS DE LA INFORMACIÓN\n");
+        Console.WriteLine("Estudiante: Bryan Fernando Rovalino\n");
+
+        for (int i = 1; i <= 10; i++)
+        {
+            Console.Write($"Ingrese el título de la revista #{i}: ");
+            string titulo = Console.ReadLine();
+            catalogo.Agregar_Titulo(titulo);
+        }
+
+        string opcion;
+        do
+        {
+            Console.WriteLine("\n MENÚ DE BÚSQUEDA");
+            Console.WriteLine("1. Buscar un título");
+            Console.WriteLine("2. Salir");
+            Console.Write("Seleccione una opción: ");
+            opcion = Console.ReadLine();
+
+            switch (opcion)
+            {
+                case "1":
+                    Console.Write("Ingrese título a buscar: ");
+                    string titulo_Busqueda = Console.ReadLine();
+                    bool encontrado = catalogo.Buscar_Titulo_Recursivo(titulo_Busqueda);
+                    Console.WriteLine(encontrado ? "Encontrado" : "No encontrado");
+                    break;
+                case "2":
+                    Console.WriteLine("Saliendo del programa...");
+                    break;
+                default:
+                    Console.WriteLine("Opción inválida. Intente nuevamente.");
+                    break;
+            }
+        } while (opcion != "2");
+    }
+}
