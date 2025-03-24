@@ -1,0 +1,271 @@
+using System;
+
+class Nodo
+{
+    public int Valor;
+    public Nodo Izquierdo;
+    public Nodo Derecho;
+
+    public Nodo(int valor)
+    {
+        Valor = valor;
+        Izquierdo = null;
+        Derecho = null;
+    }
+}
+
+class ArbolBinario
+{
+    private Nodo Raiz;
+
+    public ArbolBinario()
+    {
+        Raiz = null;
+    }
+
+    // Insertar un valor en el árbol
+    public void Insertar(int valor)
+    {
+        if (Raiz == null)
+        {
+            Raiz = new Nodo(valor);
+            return;
+        }
+
+        Nodo actual = Raiz;
+        while (true)
+        {
+            if (valor < actual.Valor)
+            {
+                if (actual.Izquierdo == null)
+                {
+                    actual.Izquierdo = new Nodo(valor);
+                    break;
+                }
+                actual = actual.Izquierdo;
+            }
+            else if (valor > actual.Valor)
+            {
+                if (actual.Derecho == null)
+                {
+                    actual.Derecho = new Nodo(valor);
+                    break;
+                }
+                actual = actual.Derecho;
+            }
+            else
+            {
+                // Si el valor ya existe, no se inserta
+                break;
+            }
+        }
+    }
+
+    // Buscar un valor en el árbol
+    public bool Buscar(int valor)
+    {
+        Nodo actual = Raiz;
+        while (actual != null)
+        {
+            if (valor == actual.Valor)
+                return true;
+            else if (valor < actual.Valor)
+                actual = actual.Izquierdo;
+            else
+                actual = actual.Derecho;
+        }
+        return false;
+    }
+
+    // Recorrido Inorden (izquierda, raíz, derecha)
+    public void Inorden()
+    {
+        InordenRec(Raiz);
+        Console.WriteLine();
+    }
+
+    private void InordenRec(Nodo nodo)
+    {
+        if (nodo != null)
+        {
+            InordenRec(nodo.Izquierdo);
+            Console.Write(nodo.Valor + " ");
+            InordenRec(nodo.Derecho);
+        }
+    }
+
+    // Recorrido Preorden (raíz, izquierda, derecha)
+    public void Preorden()
+    {
+        PreordenRec(Raiz);
+        Console.WriteLine();
+    }
+
+    private void PreordenRec(Nodo nodo)
+    {
+        if (nodo != null)
+        {
+            Console.Write(nodo.Valor + " ");
+            PreordenRec(nodo.Izquierdo);
+            PreordenRec(nodo.Derecho);
+        }
+    }
+
+    // Recorrido Postorden (izquierda, derecha, raíz)
+    public void Postorden()
+    {
+        PostordenRec(Raiz);
+        Console.WriteLine();
+    }
+
+    private void PostordenRec(Nodo nodo)
+    {
+        if (nodo != null)
+        {
+            PostordenRec(nodo.Izquierdo);
+            PostordenRec(nodo.Derecho);
+            Console.Write(nodo.Valor + " ");
+        }
+    }
+
+    // Eliminar un valor del árbol
+    public void Eliminar(int valor)
+    {
+        Raiz = EliminarRec(Raiz, valor);
+    }
+
+    private Nodo EliminarRec(Nodo nodo, int valor)
+    {
+        if (nodo == null)
+            return nodo;
+
+        if (valor < nodo.Valor)
+            nodo.Izquierdo = EliminarRec(nodo.Izquierdo, valor);
+        else if (valor > nodo.Valor)
+            nodo.Derecho = EliminarRec(nodo.Derecho, valor);
+        else
+        {
+            // Nodo con un solo hijo o sin hijos
+            if (nodo.Izquierdo == null)
+                return nodo.Derecho;
+            else if (nodo.Derecho == null)
+                return nodo.Izquierdo;
+
+            // Nodo con dos hijos: obtener el sucesor inorden (mínimo en el subárbol derecho)
+            nodo.Valor = MinValor(nodo.Derecho);
+
+            // Eliminar el sucesor inorden
+            nodo.Derecho = EliminarRec(nodo.Derecho, nodo.Valor);
+        }
+        return nodo;
+    }
+
+    private int MinValor(Nodo nodo)
+    {
+        int minv = nodo.Valor;
+        while (nodo.Izquierdo != null)
+        {
+            minv = nodo.Izquierdo.Valor;
+            nodo = nodo.Izquierdo;
+        }
+        return minv;
+    }
+
+    public void MostrarResumen()
+    {
+        Console.WriteLine("\n--- Información del Árbol ---");
+        Console.WriteLine("Cantidad de nodos: " + ContarNodos(Raiz));
+        Console.WriteLine("Cantidad de hojas: " + ContarHojas(Raiz));
+        Console.WriteLine("Altura: " + CalcularAltura(Raiz));
+    }
+
+    private int ContarNodos(Nodo nodo)
+    {
+        if (nodo == null) return 0;
+        return 1 + ContarNodos(nodo.Izquierdo) + ContarNodos(nodo.Derecho);
+    }
+
+    private int ContarHojas(Nodo nodo)
+    {
+        if (nodo == null) return 0;
+        if (nodo.Izquierdo == null && nodo.Derecho == null) return 1;
+        return ContarHojas(nodo.Izquierdo) + ContarHojas(nodo.Derecho);
+    }
+
+    private int CalcularAltura(Nodo nodo)
+    {
+        if (nodo == null) return -1;
+        return 1 + Math.Max(CalcularAltura(nodo.Izquierdo), CalcularAltura(nodo.Derecho));
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        ArbolBinario arbol = new ArbolBinario();
+        int opcion, valor;
+
+        do
+        {
+            Console.WriteLine("\n Tarea semana 14");
+            Console.WriteLine("\n Bryan Rovalino");
+            Console.WriteLine("\n--- Menú de Operaciones ---");
+            Console.WriteLine("1. Insertar");
+            Console.WriteLine("2. Buscar");
+            Console.WriteLine("3. Recorrer Inorden");
+            Console.WriteLine("4. Recorrer Preorden");
+            Console.WriteLine("5. Recorrer Postorden");
+            Console.WriteLine("6. Eliminar");
+            Console.WriteLine("7. Ver estadísticas del árbol");
+            Console.WriteLine("8. Salir");
+            Console.Write("Seleccione una opción: ");
+            opcion = int.Parse(Console.ReadLine());
+
+            switch (opcion)
+            {
+                case 1:
+                    Console.Write("Ingrese el valor a insertar: ");
+                    valor = int.Parse(Console.ReadLine());
+                    arbol.Insertar(valor);
+                    break;
+                case 2:
+                    Console.Write("Ingrese el valor a buscar: ");
+                    valor = int.Parse(Console.ReadLine());
+                    if (arbol.Buscar(valor))
+                        Console.WriteLine("Valor encontrado.");
+                    else
+                        Console.WriteLine("Valor no encontrado.");
+                    break;
+                case 3:
+                    Console.WriteLine("Recorrido Inorden:");
+                    arbol.Inorden();
+                    break;
+                case 4:
+                    Console.WriteLine("Recorrido Preorden:");
+                    arbol.Preorden();
+                    break;
+                case 5:
+                    Console.WriteLine("Recorrido Postorden:");
+                    arbol.Postorden();
+                    break;
+                case 6:
+                    Console.Write("Ingrese el valor a eliminar: ");
+                    valor = int.Parse(Console.ReadLine());
+                    arbol.Eliminar(valor);
+                    break;
+                case 7:
+                    arbol.MostrarResumen();
+                    break;
+                case 8:
+                    Console.WriteLine("Saliendo...");
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida.");
+                    break;
+            }
+        } while (opcion != 8);
+    }
+}
+
+
